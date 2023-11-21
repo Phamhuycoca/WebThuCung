@@ -9,7 +9,7 @@
                     <router-link to="/" class="custom-link" style="font-size: 15px;">Website cửa hàng bán thú
                         cưng</router-link>
                     <v-spacer></v-spacer>
-                    <router-link to="/" class="custom-link" style="font-size: 15px;">Thú cưng</router-link>
+                    <router-link to="/thunuoi" class="custom-link" style="font-size: 15px;">Thú cưng</router-link>
                     <v-spacer></v-spacer>
                     <v-spacer></v-spacer>
                     <router-link to="/sanpham" class="custom-link" style="font-size: 15px;">Sản phẩm</router-link>
@@ -17,31 +17,38 @@
             </v-toolbar-title>
             <div v-if="getisAuthenticated">
                 <v-btn class="text-none" stacked @click="Cart">
-                    <v-badge :content="getTotalCart" color="error">
+                    <v-badge :content="0" color="error">
                         <v-icon>mdi-cart</v-icon>
                     </v-badge>
                 </v-btn>
             </div>
             <div v-else>
                 <v-btn class="text-none" stacked>
-                        <v-icon>mdi-cart</v-icon>
+                    <v-icon>mdi-cart</v-icon>
                 </v-btn>
             </div>
             <div>
                 <div v-if="getisAuthenticated">
                     <v-menu v-model="menu" :close-on-content-click="false" right>
                         <template v-slot:activator="{ props }">
-                            <v-list-item icon v-bind="props" :prepend-avatar="userInfo.avatar"></v-list-item>
+                            <v-list-item v-if="!userInfo.nguoiDungHinhAnh" icon v-bind="props">
+                                <v-icon>mdi-account</v-icon> <!-- Hiển thị biểu tượng mặc định nếu không có hình ảnh -->
+                            </v-list-item>
+                            <v-list-item v-else icon v-bind="props" :prepend-avatar="userInfo.nguoiDungHinhAnh">
+                                <!-- Hiển thị hình ảnh đại diện nếu có -->
+                                <v-img :src="userInfo.nguoiDungHinhAnh"></v-img>
+                            </v-list-item>
                         </template>
+
 
                         <v-card min-width="200">
                             <v-list style="cursor: pointer;">
-                                <v-list-item :prepend-avatar="userInfo.avatar" :title="userInfo.name"
+                                <v-list-item :prepend-avatar="userInfo.avatar" :title="userInfo.hoVaTen"
                                     :subtitle="userInfo.email"></v-list-item>
                             </v-list>
                             <v-divider></v-divider>
                             <v-list dense>
-                                <v-list-item prepend-icon="mdi-information" title="Thông tin cá nhân"
+                                <v-list-item prepend-icon="mdi-information" title="Thông tin cá nhân" to="/profile"
                                     value="Thông tin cá nhân"></v-list-item>
                                 <v-list-item prepend-icon="mdi-logout" title="Đăng xuất" value="Logout"
                                     @click="confirmLogout"></v-list-item>
@@ -60,7 +67,7 @@
         <!-- <v-navigation-drawer v-model="cartDrawer" location="right" temporary width="450">
             <Cart style="margin-top: 80px;" v-model="cartDrawer"/>
         </v-navigation-drawer> -->
-        <Cart style="margin-top: 80px;" v-model="cartDrawer"/>
+        <Cart style="z-index: 1000;" :cartDrawer="cartDrawer" @close="cartDrawer = false" />
 
     </div>
 </template>
@@ -69,7 +76,8 @@
 <script>
 import Cart from '@/layout/Client/Cart.vue';
 import ConfirmLogout from '../ConfirmLogout.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
+import nguoidungApi from '../../service/nguoidungApi';
 export default {
     name: "HeaderComponent",
     data() {
@@ -77,15 +85,12 @@ export default {
             dialog: false,
             cartDrawer: false,
             menu: false,
-            userInfo: {
-                avatar: "https://firebasestorage.googleapis.com/v0/b/thitracnghiem-830f0.appspot.com/o/category/1695722799093?alt=media&token=96ae3867-23e5-4a52-86c9-8de03bd1ba53",
-                name: "Phạm Khắc Huy",
-                email: "Phamkhachuy240702@gmail.com"
-            },
+            userInfo: []
         };
     },
     computed: {
-        ...mapGetters(['getisAuthenticated', 'getTotalCart'])
+        ...mapGetters(['getisAuthenticated']),
+        ...mapState(['nguoidungId'])
     },
     methods: {
         Logout() {
@@ -101,11 +106,23 @@ export default {
         },
         Login() {
             this.$router.push('/login')
+        },
+        async getUser() {
+            try {
+                const res = await nguoidungApi.getById(this.nguoidungId);
+                this.userInfo = res.data;
+                console.log(res.data);
+            } catch (error) {
+                console.log(error)
+            }
         }
     },
     components: {
         ConfirmLogout,
         Cart
+    },
+    created() {
+        this.getUser();
     }
 };
 </script>

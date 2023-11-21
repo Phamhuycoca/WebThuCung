@@ -6,54 +6,38 @@ export default createStore({
     quyen: null,
     nguoidungId: null,
     isAuthenticated: false,
-    totalCart: '',
-    lisCart: []
   },
   getters: {
     getToken: state => state.token,
     getNguoiDungId: state => state.nguoidungId,
     getQuyen: state => state.quyen,
     getisAuthenticated: state => state.isAuthenticated,
-    getCart: state => state.lisCart,
-    getTotalCart: state => state.totalCart
   },
   mutations: {
     setToken(state) {
       state.token = sessionStorage.getItem('token');
     },
     setNguoiDungId(state) {
-      state.nguoidungId = sessionStorage.getItem('nguoidungId');
+      state.nguoidungId = sessionStorage.getItem('NguoiDungId');
     },
     setQuyen(state) {
-      state.quyen = sessionStorage.getItem('quyen');
+      state.quyen = sessionStorage.getItem('Quyen');
     },
-    SetisAuthenticated(state) {
+    setisAuthenticated(state) {
       state.isAuthenticated = true;
-    },
-    setListCart(state) {
-      state.lisCart = sessionStorage.getItem('carts');
-    },
-    setTotalCart(state) {
-      state.totalCart = localStorage.getItem('TotalCart')
     },
     removeToken(state) {
       state.token = sessionStorage.clear('token');
     },
     removeNguoiDungId(state) {
-      state.nguoidungId = sessionStorage.clear('nguoidungId')
+      state.nguoidungId = sessionStorage.clear('NguoiDungId')
     },
     removeQuyen(state) {
-      state.quyen = sessionStorage.clear('quyen');
+      state.quyen = sessionStorage.clear('Quyen');
     },
     removeIsAuthenticated(state) {
       state.isAuthenticated = false
     },
-    removeListCart(state) {
-      state.lisCart = sessionStorage.clear('carts');
-    },
-    removeTotalCart(state) {
-      state.totalCart = localStorage.clear('TotalCart');
-    }
   },
   actions: {
     Login(context, data) {
@@ -66,11 +50,11 @@ export default createStore({
     },
     DecodeToken(context, data) {
       try {
-        sessionStorage.setItem('nguoidungId', data.nguoiDungId);
-        sessionStorage.setItem('quyen', data.quyen);
+        sessionStorage.setItem('NguoiDungId', data.nguoiDungId);
+        sessionStorage.setItem('Quyen', data.quyen);
         context.commit('setNguoiDungId');
         context.commit('setQuyen');
-        context.commit('SetisAuthenticated')
+        context.commit('setisAuthenticated')
       } catch (error) {
         console.log(error);
       }
@@ -82,7 +66,6 @@ export default createStore({
         context.commit('removeQuyen');
         context.commit('removeIsAuthenticated');
         context.commit('removeListCart');
-        context.commit('removeTotalCart');
         context.dispatch('getsessionStorage')
       } catch (error) {
         console.log(error);
@@ -92,32 +75,15 @@ export default createStore({
       console.log('getsessionStorage');
       if (sessionStorage.getItem('token')) {
         context.commit('setToken');
-        context.commit('SetisAuthenticated');
+        context.commit('setisAuthenticated');
       }
-      if (sessionStorage.getItem('nguoidungId')) {
+      if (sessionStorage.getItem('NguoiDungId')) {
         context.commit('setNguoiDungId');
       }
-      if (sessionStorage.getItem('quyen')) {
+      if (sessionStorage.getItem('Quyen')) {
         context.commit('setQuyen');
       }
-      if (sessionStorage.getItem('carts')) {
-        context.commit('setListCart')
-      }
-      if (localStorage.getItem('TotalCart')) {
-        context.commit('setTotalCart')
-      }
     },
-    async getListCarts(context, data) {
-      try {
-        sessionStorage.setItem('carts', JSON.stringify(data));
-        context.commit('setListCart');
-        localStorage.setItem('TotalCart', data.length)
-        context.commit('setTotalCart')
-        context.dispatch('getsessionStorage')
-      } catch (error) {
-        console.log(error);
-      }
-    }
   },
   modules: {
   }

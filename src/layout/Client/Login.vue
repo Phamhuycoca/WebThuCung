@@ -76,6 +76,7 @@ export default {
                 this.decodeToken(res.data.token);
                 this.$store.dispatch('Login',res.data.token);
                 this.AlertSuccess(res.data.message);
+                this.$router.push('/')
             } catch (error) {
                 this.loading = false;
                 this.AlertError(error.response.data)

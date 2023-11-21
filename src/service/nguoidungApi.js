@@ -18,5 +18,8 @@ export default{
     },
     async DeCodeToken(token){
         return await nguoidungApi.post(`/DecodeToken?token=${token}`);
+    },
+    async getById(id){
+        return await nguoidungApi.get(`${id}`);
     }
 }

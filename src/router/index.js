@@ -21,6 +21,18 @@ const routes = [
       {
         path:'sanpham',
         component:()=>import('@/components/Client/SanPham.vue')
+      },
+      {
+        path:'thunuoi',
+        component:()=>import('@/components/Client/ThuNuoi.vue')
+      },
+      {
+        path:'chitiet',
+        component:()=>import('@/layout/Client/Detail.vue')
+      },
+      {
+        path:'profile',
+        component:()=>import('@/layout/Client/Profile.vue')
       }
     ]
   },

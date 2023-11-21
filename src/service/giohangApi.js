@@ -14,5 +14,8 @@ export default {
     },
     async removeCart(id){
         return await giohangApi.delete(`${id}`);
+    },
+    async getById(id){
+        return await giohangApi.get(`${id}`);
     }
 }

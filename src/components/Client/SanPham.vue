@@ -1,8 +1,8 @@
 <template>
-    <div style="margin: 20px;height: 200vh;">
+    <div style="margin: 20px;height: 150vh;">
         <h1 class="text-center">Danh sách sản phẩm</h1>
         <v-row>
-            <v-col v-for="(item, index) in sanphams" :key="index" cols="4" class="mt-8">
+            <v-col v-for="(item, index) in displayed" :key="index" cols="4" class="mt-8">
                 <div style="border: 1px solid #333; background: #f4eeee;">
                     <v-card class="mx-auto pa-1 m-5" color="grey-lighten-4" max-width="600" v-bind="props">
                         <v-img :aspect-ratio="16 / 9" cover :src="item.sanPhamHinhAnh">
@@ -10,12 +10,14 @@
                     </v-card>
                     <v-card-text class="text-center">{{ item.sanPhamTen }}</v-card-text>
                     <v-card-actions>
-                        <v-btn @click="addToCart(item.sanPhamId)" color="primary" dark>Thêm vào giỏ hàng</v-btn>
+                        <v-btn @click="addToCart(item)" color="primary" dark>Thêm vào giỏ hàng</v-btn>
                         <v-btn @click="viewDetails(item)" color="secondary" dark>Xem chi tiết</v-btn>
                     </v-card-actions>
                 </div>
             </v-col>
         </v-row>
+        <v-pagination prev-icon="mdi-menu-left" next-icon="mdi-menu-right" class="pa-8" :length="totalPages"
+            v-model="currentPage"></v-pagination>
         <Loading v-model="dialogloading" />
         <Toast style="z-index: 1000;" v-model="showAlert.show" :content="showAlert.content" :color="showAlert.color"
             :icon="showAlert.icon" />
@@ -27,15 +29,18 @@ import Toast from '../Toast.vue';
 import giohangApi from '@/service/giohangApi';
 import Loading from '../Loading.vue';
 import sanphamApi from '@/service/sanphamApi';
+import { mapGetters } from 'vuex';
 export default {
     name: 'SanPham',
     data() {
         return {
             sanphams: [],
             dialogloading: false,
-            cart:{
-                sanPhamId:'',
-                soluong:''
+            cart: {
+                sanPhamId: '',
+                soluong: '',
+                nguoidungId: '',
+                sanPhamGia: ''
             },
             showAlert: {
                 show: false,
@@ -43,6 +48,8 @@ export default {
                 content: "",
                 color: "success"
             },
+            currentPage: 1,
+            itemsPerPage: 12,
         };
     },
     watch: {
@@ -58,18 +65,35 @@ export default {
         Loading,
         Toast
     },
+    computed: {
+        ...mapGetters(['getNguoiDungId']),
+        displayed() {
+            if (this.sanphams && this.sanphams.length > 0) {
+                const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+                const endIndex = startIndex + this.itemsPerPage;
+                return this.sanphams.slice(startIndex, endIndex);
+            } else {
+                return [];
+            }
+        },
+        totalPages() {
+            return Math.ceil(this.sanphams.length / this.itemsPerPage);
+        }
+    },
     methods: {
-        async addToCart(id) {
-            try{
-                console.log(id);
-                this.cart.sanPhamId=id;
-                this.cart.soluong=1;
+        async addToCart(item) {
+            try {
+                console.log(item);
+                this.cart.sanPhamId = item.sanPhamId;
+                this.cart.soluong = 1;
+                this.cart.nguoidungId = this.getNguoiDungId;
+                this.cart.sanPhamGia = item.sanPhamGia;
                 console.log(this.cart);
-                const res=await giohangApi.addItem(this.cart);
+                const res = await giohangApi.addItem(this.cart);
                 console.log(res);
                 this.AlertSuccess(res.data);
                 this.getAllCart();
-            }catch(error){
+            } catch (error) {
                 console.log(error.response.data);
                 this.AlertError(error.response.data);
             }
@@ -86,12 +110,12 @@ export default {
                 this.dialogloading = false;
             }
         },
-        async getAllCart(){
-            try{
-                const res= await giohangApi.getAllCarts();
+        async getAllCart() {
+            try {
+                const res = await giohangApi.getAllCarts();
                 console.log(res.data);
-                this.$store.dispatch('getListCarts',res.data);
-            }catch(error){
+                //this.$store.dispatch('getListCarts',res.data);
+            } catch (error) {
                 console.log(error);
             }
         },

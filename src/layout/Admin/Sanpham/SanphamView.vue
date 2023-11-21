@@ -23,10 +23,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(item, index) in datas " :key="index">
+                                <tr v-for="(item, index) in displayed " :key="index">
                                     <td class="text-center">{{ index + 1 }}</td>
                                     <td class="text-center">
-                                        <img :src="item.sanPhamHinhAnh" style="width:120px;height:100px;" />
+                                        <img :src="item.sanPhamHinhAnh" style="width:120px;height:80px;" />
                                     </td>
                                     <td class="text-center">{{ item.sanPhamTen }}</td>
                                     <td class="text-center">{{ item.sanPhamGia }}</td>
@@ -42,6 +42,8 @@
                                 </tr>
                             </tbody>
                         </v-table>
+                        <v-pagination prev-icon="mdi-menu-left" next-icon="mdi-menu-right" class="pa-8" :length="totalPages"
+                            v-model="currentPage"></v-pagination>
                     </v-card>
                 </v-col>
             </v-row>
@@ -81,7 +83,9 @@ export default {
                 content: "",
                 color: "success"
             },
-            dialogloading: false
+            dialogloading: false,
+            currentPage: 1,
+            itemsPerPage: 5,
         }
     },
     components: {
@@ -97,6 +101,20 @@ export default {
                 if (!newVal.show) return;
                 setTimeout(() => (this.showAlert.show = false), 2000);
             }
+        }
+    },
+    computed: {
+        displayed() {
+            if (this.datas && this.datas.length > 0) {
+                const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+                const endIndex = startIndex + this.itemsPerPage;
+                return this.datas.slice(startIndex, endIndex);
+            } else {
+                return [];
+            }
+        },
+        totalPages() {
+            return Math.ceil(this.datas.length / this.itemsPerPage);
         }
     },
     methods: {
