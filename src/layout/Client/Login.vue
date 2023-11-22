@@ -74,20 +74,22 @@ export default {
                     this.loading = false;
                 }, 1500);
                 this.decodeToken(res.data.token);
-                this.$store.dispatch('Login',res.data.token);
+                this.$store.dispatch('Login', res.data.token);
                 this.AlertSuccess(res.data.message);
-                this.$router.push('/')
+                setTimeout(() => {
+                    this.$router.push('/')
+                }, 4000);
             } catch (error) {
                 this.loading = false;
                 this.AlertError(error.response.data)
             }
         },
-        async decodeToken(token){
-            try{
-                const res= await nguoidungApi.DeCodeToken(token);
-                this.$store.dispatch('DecodeToken',res.data)
+        async decodeToken(token) {
+            try {
+                const res = await nguoidungApi.DeCodeToken(token);
+                this.$store.dispatch('DecodeToken', res.data)
                 console.log(res.data);
-            }catch(error){
+            } catch (error) {
                 console.log(error);
             }
         },

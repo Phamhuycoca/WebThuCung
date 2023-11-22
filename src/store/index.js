@@ -6,6 +6,7 @@ export default createStore({
     quyen: null,
     nguoidungId: null,
     isAuthenticated: false,
+    totalCart:0
   },
   getters: {
     getToken: state => state.token,
@@ -25,6 +26,9 @@ export default createStore({
     },
     setisAuthenticated(state) {
       state.isAuthenticated = true;
+    },
+    settotalCart(state,data){
+      state.totalCart=data;
     },
     removeToken(state) {
       state.token = sessionStorage.clear('token');
@@ -84,6 +88,10 @@ export default createStore({
         context.commit('setQuyen');
       }
     },
+    getTotal(context,data){
+      console.log('ok');
+      context.commit('settotalCart',data.length);
+    }
   },
   modules: {
   }

@@ -27,7 +27,7 @@ const routes = [
         component:()=>import('@/components/Client/ThuNuoi.vue')
       },
       {
-        path:'chitiet',
+        path:'chitiet/:id',
         component:()=>import('@/layout/Client/Detail.vue')
       },
       {

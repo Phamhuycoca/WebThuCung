@@ -7,8 +7,9 @@
                     <v-card class="mx-auto pa-1 m-5" color="grey-lighten-4" max-width="600" v-bind="props">
                         <v-img :aspect-ratio="16 / 9" cover :src="item.sanPhamHinhAnh">
                         </v-img>
+                        <v-card-text class="text-center">Sản phẩm: {{ item.sanPhamTen }}</v-card-text>
+                        <v-card-item>Giá sản phẩm: {{ item.sanPhamGia }} VND</v-card-item>
                     </v-card>
-                    <v-card-text class="text-center">{{ item.sanPhamTen }}</v-card-text>
                     <v-card-actions>
                         <v-btn @click="addToCart(item)" color="primary" dark>Thêm vào giỏ hàng</v-btn>
                         <v-btn @click="viewDetails(item)" color="secondary" dark>Xem chi tiết</v-btn>
@@ -26,8 +27,8 @@
   
 <script>
 import Toast from '../Toast.vue';
-import giohangApi from '@/service/giohangApi';
 import Loading from '../Loading.vue';
+import giohangApi from '@/service/giohangApi';
 import sanphamApi from '@/service/sanphamApi';
 import { mapGetters } from 'vuex';
 export default {
@@ -35,13 +36,13 @@ export default {
     data() {
         return {
             sanphams: [],
-            dialogloading: false,
             cart: {
                 sanPhamId: '',
                 soluong: '',
                 nguoidungId: '',
                 sanPhamGia: ''
             },
+            dialogloading: false,
             showAlert: {
                 show: false,
                 icon: "$success",
@@ -49,7 +50,7 @@ export default {
                 color: "success"
             },
             currentPage: 1,
-            itemsPerPage: 12,
+            itemsPerPage: 9,
         };
     },
     watch: {
@@ -82,6 +83,7 @@ export default {
     },
     methods: {
         async addToCart(item) {
+            this.dialogloading = true;
             try {
                 console.log(item);
                 this.cart.sanPhamId = item.sanPhamId;
@@ -91,11 +93,13 @@ export default {
                 console.log(this.cart);
                 const res = await giohangApi.addItem(this.cart);
                 console.log(res);
+                this.dialogloading = false;
                 this.AlertSuccess(res.data);
-                this.getAllCart();
+                // this.getAllCart();
             } catch (error) {
                 console.log(error.response.data);
                 this.AlertError(error.response.data);
+                this.dialogloading = false;
             }
         },
         async getAllSanPham() {
@@ -110,14 +114,18 @@ export default {
                 this.dialogloading = false;
             }
         },
-        async getAllCart() {
-            try {
-                const res = await giohangApi.getAllCarts();
-                console.log(res.data);
-                //this.$store.dispatch('getListCarts',res.data);
-            } catch (error) {
-                console.log(error);
-            }
+        // async getAllCart() {
+        //     try {
+        //         const res = await giohangApi.getAllCarts();
+        //         this.$store.dispatch('getTotal',res.data)
+        //         console.log(res.data);
+        //         //this.$store.dispatch('getListCarts',res.data);
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // },
+        viewDetails(item){
+            this.$router.push('/chitiet/'+item.sanPhamId);
         },
         AlertSuccess(content) {
             this.showAlert.show = true;
@@ -134,6 +142,7 @@ export default {
     },
     created() {
         this.getAllSanPham();
+        // this.getAllCart();
     }
 };
 </script>

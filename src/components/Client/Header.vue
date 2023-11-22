@@ -17,7 +17,7 @@
             </v-toolbar-title>
             <div v-if="getisAuthenticated">
                 <v-btn class="text-none" stacked @click="Cart">
-                    <v-badge :content="0" color="error">
+                    <v-badge :content="totalCart" color="error">
                         <v-icon>mdi-cart</v-icon>
                     </v-badge>
                 </v-btn>
@@ -29,7 +29,7 @@
             </div>
             <div>
                 <div v-if="getisAuthenticated">
-                    <v-menu v-model="menu" :close-on-content-click="false" right>
+                    <v-menu v-model="menu" :close-on-content-click="false" right width="300">
                         <template v-slot:activator="{ props }">
                             <v-list-item v-if="!userInfo.nguoiDungHinhAnh" icon v-bind="props">
                                 <v-icon>mdi-account</v-icon> <!-- Hiển thị biểu tượng mặc định nếu không có hình ảnh -->
@@ -39,9 +39,7 @@
                                 <v-img :src="userInfo.nguoiDungHinhAnh"></v-img>
                             </v-list-item>
                         </template>
-
-
-                        <v-card min-width="200">
+                        <v-card max-width="300">
                             <v-list style="cursor: pointer;">
                                 <v-list-item :prepend-avatar="userInfo.avatar" :title="userInfo.hoVaTen"
                                     :subtitle="userInfo.email"></v-list-item>
@@ -90,7 +88,8 @@ export default {
     },
     computed: {
         ...mapGetters(['getisAuthenticated']),
-        ...mapState(['nguoidungId'])
+        ...mapState(['nguoidungId','totalCart']),
+
     },
     methods: {
         Logout() {

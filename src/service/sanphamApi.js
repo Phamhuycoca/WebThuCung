@@ -22,5 +22,9 @@ export default {
     },
     async deleteData(id) {
         return await sanphamApi.delete(`${id}`)
+    },
+    async getById(id){
+        return await sanphamApi.get(`${id}`)
+
     }
 }

@@ -57,7 +57,7 @@
             </div>
         </v-container>
         
-        <checkout ref="dialog"/>
+        <checkout ref="dialog" :totalCart="total" @close="getAllCart"/>
     </v-navigation-drawer>
 </template>
 
@@ -109,6 +109,8 @@ export default {
         async getAllCart() {
             try {
                 const res = await giohangApi.getById(this.getNguoiDungId);
+                console.log('cảt');
+                this.$store.dispatch('getTotal',res.data)
                 this.cartItems = res.data;
             }
             catch (error) {
