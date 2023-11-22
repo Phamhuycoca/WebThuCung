@@ -10,7 +10,7 @@
                     <v-container fluid>
                         <v-card elevation="2" class="mx-auto" max-width="800" height="450"
                             style="margin-top: 50px;border: 1px solid #333;">
-                            <v-card-title primary-title>
+                            <v-card-title primary-title style="background-color: #24b429;color: #fff;" class="text-center pa-4">
                                 <div class="text-center">
                                     <h2 class="headline mb-0">Thông tin tài khoản người dùng</h2>
                                     <h3>{{ user.email }}</h3>

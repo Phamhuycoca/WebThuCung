@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-const routes = [
+const routes = [ 
   {
     path: '/',
     name: 'home',
@@ -35,6 +35,10 @@ const routes = [
         component:()=>import('@/layout/Client/Profile.vue')
       }
     ]
+  },  
+  {
+    path:'/trangchu',
+    component:()=>import('@/components/Client/TrangChu.vue')
   },
   {
     path: '/admin',

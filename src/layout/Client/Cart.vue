@@ -46,7 +46,7 @@
                         <v-col cols="4">
                             <div class="text-right">
                                 <h4>Tổng tiền: {{ calculateTotal() }}</h4>
-                                <v-btn color="green" @click="checkOut">Checkout</v-btn>
+                                <v-btn color="green" @click="checkOut">Thanh toán</v-btn>
                             </div>
                         </v-col>
                     </v-row>

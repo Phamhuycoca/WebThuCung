@@ -1,16 +1,16 @@
 <template>
     <v-row justify="center">
-        <v-dialog v-model="dialog" persistent width="514">
+        <v-dialog v-model="dialog" persistent width="800">
             <v-card elevation="2">
-                <v-card-title>
-                    <h2>Thông tin thanh toán</h2>
+                <v-card-title style="background-color: #24b429;color: #fff;" class="text-center pa-4">
+                    Thông tin thanh toán
                 </v-card-title>
                 <v-card-text>
                     <v-form @submit.prevent="submitOrder">
-                        <v-text-field label="Họ và tên" v-model="this.user.hoVaTen"></v-text-field>
-                        <v-text-field label="Đia chỉ" v-model="formData.hoaDonDiaChi"></v-text-field>
-                        <v-text-field label="Số điện thoại" v-model="formData.hoaDonSdt"></v-text-field>
-                        <v-text-field label="Tổng tiền" v-model="formData.tongTien" readonly></v-text-field>
+                        <v-text-field prepend-icon="mdi-card-account-details-outline" label="Họ và tên" v-model="this.user.hoVaTen"></v-text-field>
+                        <v-text-field prepend-icon="mdi-map-marker" label="Đia chỉ" v-model="formData.hoaDonDiaChi"></v-text-field>
+                        <v-text-field prepend-icon="mdi-phone-in-talk" label="Số điện thoại" v-model="formData.hoaDonSdt"></v-text-field>
+                        <v-text-field prepend-icon="mdi-cash" label="Tổng tiền" v-model="formData.tongTien" readonly></v-text-field>
                     </v-form>
                 </v-card-text>
                 <v-card-actions>

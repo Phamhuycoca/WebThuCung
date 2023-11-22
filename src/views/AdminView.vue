@@ -1,6 +1,6 @@
   <template>
     <v-app>
-        <Header/>
+        <Header style="height: 70px;"/>
         <Sidebar/>
       <v-main>
         <v-container class="py-3 px-6">

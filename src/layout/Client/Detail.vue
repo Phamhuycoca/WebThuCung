@@ -42,8 +42,7 @@
                                     </v-list-item>
                                     <v-list-item style="margin: 20px;">
                                         <v-list-item-content>
-                                            <v-btn @click="addToCart" color="primary">Add to
-                                                Cart</v-btn>
+                                            <v-btn @click="addToCart" color="green">Thêm giỏ hàng</v-btn>
                                         </v-list-item-content>
                                     </v-list-item>
                                 </v-list>
