@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer>
+    <v-navigation-drawer style="max-height: 100vh;">
         <v-list>
             <v-list-subheader>Danh mục</v-list-subheader>
             <v-list-item v-for="(item, i) in links" :key="i" :to="item.link" color="primary">
