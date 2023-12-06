@@ -64,50 +64,7 @@
                 <v-window-item :value="2">
                     <v-row class="mt-8">
                         <v-col>
-                            <v-card>
-                                <!-- <v-table>
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">STT</th>
-                                                <th class="text-center">Địa chỉ giao hàng</th>
-                                                <th class="text-center">Số điện thoại</th>
-                                                <th class="text-center">Ngày đặt</th>
-                                                <th class="text-center">Tổng tiền</th>
-                                                <th class="text-center">Trạng thái</th>
-                                                <th class="text-center">Hành động</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(item, index) in displayed " :key="index">
-                                                <td class="text-center">{{ index + 1 }}</td>
-                                                <td class="text-center">{{ item.hoaDonDiaChi }}</td>
-                                                <td class="text-center">{{ item.hoaDonSdt }}</td>
-                                                <td class="text-center">{{ item.ngayTao }}</td>
-                                                <td class="text-center">{{ item.tongTien }} VNĐ</td>
-                                                <td class="text-center" v-if="item.trangThai===0">Đang chờ duyệt...</td>
-                                                <td class="text-center">
-                                                    <v-btn color="red">Xem chi tiết</v-btn>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </v-table> -->
-                                <!-- <v-expansion-panels>
-                                    <v-expansion-panel v-for="(item, index) in displayed" :key="index">
-                                        <v-expansion-panel-header>
-                                            <div class="d-flex align-center justify-space-between">
-                                                <div>
-                                                    <div>Địa chỉ giao hàng: {{ item.hoaDonDiaChi }}</div>
-                                                    <div>Số điện thoại: {{ item.hoaDonSdt }}</div>
-                                                    <div>Ngày đặt: {{ item.ngayTao }}</div>
-                                                    <div>Tổng tiền: {{ item.tongTien }} VNĐ</div>
-                                                    <div v-if="item.trangThai === 0">Trạng thái: Đang chờ duyệt...</div>
-                                                </div>
-                                                <v-btn color="red" @click="viewDetails(item.hoaDonId)">Xem chi
-                                                    tiết</v-btn>
-                                            </div>
-                                        </v-expansion-panel-header>
-                                    </v-expansion-panel>
-                                </v-expansion-panels> -->
+                            <v-card class="card-container">
                                 <v-expansion-panels v-if="this.datas.length > 0">
                                     <v-expansion-panel v-for="(item, index) in displayed" :key="index">
                                         <v-expansion-panel-header @click="toggleExpansion(index)">
@@ -117,11 +74,16 @@
                                                     <div>Số điện thoại: {{ item.hoaDonSdt }}</div>
                                                     <div>Ngày đặt: {{ item.ngayTao }}</div>
                                                     <div>Tổng tiền: {{ item.tongTien }} VNĐ</div>
-                                                    <div v-if="item.trangThai === 0">Trạng thái: Đang chờ duyệt...</div>
+                                                    <div v-if="item.trangThai === 0" style="color: red;" >Trạng thái: Đang chờ duyệt...</div>
+                                                    <div v-if="item.trangThai === 1" style="color: green;">Trạng thái: Đã duyệt</div>
+                                                    <div v-if="item.trangThai === 2" style="color: orange;">Trạng thái: Đang giao</div>
+                                                    <div v-if="item.trangThai === 3" style="color: chocolate;">Trạng thái: Đã nhận</div>
                                                 </div>
                                             </div>
                                             <div class="ma-6">
-                                                <v-btn color="red" @click="HuyDon(item.hoaDonId)">Hủy đơn hàng
+                                                <v-btn v-if="item.trangThai === 0" color="red" @click="HuyDon(item.hoaDonId)">Hủy đơn hàng
+                                                </v-btn>
+                                                <v-btn v-if="item.trangThai === 2" color="red" @click="DaNhan(item.hoaDonId)">Nhận hàng
                                                 </v-btn>
                                                 <v-btn color="green" @click.stop="viewDetails(item.hoaDonId)">Xem chi
                                                     tiết
@@ -297,6 +259,18 @@ export default {
                 this.dialogloading = false;
             }
         },
+        async DaNhan(id){
+            this.dialogloading=true;
+            try{
+                const res=await hoadonApi.DaNhan(id);
+                this.AlertSuccess(res.data);
+                this.dialogloading=false;
+                this.getHoaDonById();
+            }catch(error){
+                this.AlertError(error.response.data);
+                this.dialogloading = false;
+            }
+        },
         edit() {
             this.$refs.dialog.openDialog();
             this.currentData = this.user;
@@ -322,4 +296,9 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.card-container {
+  max-height: 640px; 
+  overflow-y: auto;
+}
+</style>

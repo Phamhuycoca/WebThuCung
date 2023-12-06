@@ -3,7 +3,7 @@
         <Header style="height: 70px;"/>
         <Sidebar/>
       <v-main>
-        <v-container class="py-3 px-6">
+        <v-container class="py-3 px-6" bg-color="red">
             <router-view/>
         </v-container>
       </v-main>

@@ -53,35 +53,35 @@ export default {
         //     });
         // },
         renderRevenueChart() {
-    const ctx = this.$refs.revenueChart.getContext('2d');
+            const ctx = this.$refs.revenueChart.getContext('2d');
 
-    const labels = this.doanhthu.map(item => item.thang); // Lấy tên các tháng thành mảng nhãn
-    const data = this.doanhthu.map(item => item.tongDoanhThu); // Lấy tổng doanh thu thành mảng dữ liệu
+            const labels = this.doanhthu.map(item => item.thang);
+            const data = this.doanhthu.map(item => item.tongDoanhThu);
 
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [
-                {
-                    label: 'Doanh thu theo tháng',
-                    borderColor: 'rgb(75, 192, 192)',
-                    data: data,
-                    fill: false,
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Doanh thu theo tháng',
+                            borderColor: 'rgb(232, 32, 9)',
+                            data: data,
+                            fill: false,
+                        },
+                    ],
                 },
-            ],
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
+                    },
                 },
-            },
+            });
         },
-    });
-},
 
     },
     created() {

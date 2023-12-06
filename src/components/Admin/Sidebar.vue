@@ -19,6 +19,7 @@ export default {
         return {
             links: [
                 { icon: "mdi-home", text: "Dashboard", link: "/admin/dashboard" },
+                { icon: "mdi-clipboard-list-outline", text: "Đơn hàng", link: "/admin/donhang" },
                 { icon: "mdi-paw", text: "Thú nuôi", link: "/admin/thunuoi" },
                 { icon: "mdi-microsoft-windows", text: "Sản phẩm", link: "/admin/sanpham" },
                 { icon: "mdi-shape-plus", text: "Danh mục", link: "/admin/danhmuc" },

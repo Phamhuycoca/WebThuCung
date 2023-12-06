@@ -17,13 +17,12 @@ export default {
         };
     },
     mounted() {
-        // Khởi tạo biểu đồ khi có dữ liệu
         this.getThongTinDonHang();
     },
     methods: {
         renderPieChart() {
             if (this.chartInstance) {
-                this.chartInstance.destroy(); // Hủy biểu đồ trước khi vẽ lại
+                this.chartInstance.destroy();
             }
 
             const ctx = this.$refs.pieChart.getContext('2d');
@@ -34,7 +33,7 @@ export default {
                     datasets: [
                         {
                             label: 'Dataset 1',
-                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                            backgroundColor: ['#FF6384', '#4EC64E', '#E74010'],
                             data: [
                                 this.data.tongDonhang || 0,
                                 this.data.tongDonHangDaDuyet || 0,

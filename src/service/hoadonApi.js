@@ -14,5 +14,23 @@ export default{
     },
     async huyDon(id){
         return await hoadonApi.delete(`${id}`);
+    },
+    async duyetDonHang(data){
+        return await hoadonApi.post('/DuyetDonHang',data);
+    },
+    async getDonHangChuaDuyet(){
+        return await hoadonApi.get('/GetDonHangChuaDuyet');
+    },
+    async getDonHangDaDuyet(){
+        return await hoadonApi.get('/GetDonHangDaDuyet');
+    },
+    async getDonHangDangGiao(){
+        return await hoadonApi.get('/GetDonHangDangGiao');
+    },
+    async getDonHangDaGiao(){
+        return await hoadonApi.get('/GetDonHangDaGiao');
+    },
+    async DaNhan(id){
+        return await hoadonApi.put('/'+id);
     }
 }

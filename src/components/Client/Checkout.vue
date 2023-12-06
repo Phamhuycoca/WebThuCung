@@ -68,6 +68,7 @@ export default {
     watch: {
         totalCart: function () {
             this.formData.tongTien = this.totalCart;
+            this.getUser();
         },
         user: function () {
             this.formData.nguoiDungId = this.user.nguoiDungId,

@@ -1,66 +1,70 @@
 <template>
     <div>
-        <v-card elevation="8" bg-color="white">
-            <v-card-title>Danh sách đơn hàng</v-card-title>
-            <div v-if="datas.length > 0">
-                <v-card-text>
-                    <v-table height="300px">
-                        <thead>
-                            <tr>
-                                <th class="text-center">
-                                    <v-checkbox color="primary" v-model="duyettatca" @change="selectAll"
-                                        label="tất cả"></v-checkbox>
-                                </th>
-                                <th class="text-center">
-                                    STT
-                                </th>
-                                <th class="text-center">
-                                    Người đặt
-                                </th>
-                                <th class="text-center">
-                                    Địa chỉ nhận hàng
-                                </th>
-                                <th class="text-center">
-                                    Số điện thoại
-                                </th>
-                                <th class="text-center">
-                                    Ngày đặt
-                                </th>
-                                <th class="text-center">
-                                    Tổng tiền
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(item, index) in displayed" :key="index">
-                                <td class="text-center">
-                                    <v-checkbox color="primary" v-model="item.trangThai"></v-checkbox>
-                                </td>
-                                <td class="text-center">{{ index+=1 }}</td>
-                                <td class="text-center">{{ item.nguoiDung }}</td>
-                                <td class="text-center">{{ item.hoaDonDiaChi }}</td>
-                                <td class="text-center">{{ item.hoaDonSdt }}</td>
-                                <td class="text-center">{{ item.ngayTao }}</td>
-                                <td class="text-center">{{ item.tongTien }} VNĐ</td>
-                            </tr>
-                        </tbody>
-                    </v-table>
-                    <v-pagination prev-icon="mdi-menu-left" next-icon="mdi-menu-right" :length="totalPages"
-                        v-model="currentPage"></v-pagination>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn class="mb-2" color="red" @click="DuyetDon">Duyệt đơn hàng</v-btn>
-                </v-card-actions>
-            </div>
-            <div v-else>
-                <v-card-title class="text-center" style="height: 400px;">
-                    Danh sách trống...
-                </v-card-title>
-            </div>
-        </v-card>
+        <div v-if="datas.length > 0">
+            <v-table height="700px">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            <v-checkbox color="primary" v-model="duyettatca" @change="selectAll"
+                                label="tất cả"></v-checkbox>
+                        </th>
+                        <th class="text-center">
+                            STT
+                        </th>
+                        <th class="text-center">
+                            Người đặt
+                        </th>
+                        <th class="text-center">
+                            Địa chỉ nhận hàng
+                        </th>
+                        <th class="text-center">
+                            Số điện thoại
+                        </th>
+                        <th class="text-center">
+                            Ngày đặt
+                        </th>
+                        <th class="text-center">
+                            Tổng tiền
+                        </th>
+                        <th class="text-center">
+                            Tùy chọn
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in displayed" :key="index">
+                        <td class="text-center">
+                            <v-checkbox color="primary" v-model="item.trangThai"></v-checkbox>
+                        </td>
+                        <td class="text-center">{{ index+=1 }}</td>
+                        <td class="text-center">{{ item.nguoiDung }}</td>
+                        <td class="text-center">{{ item.hoaDonDiaChi }}</td>
+                        <td class="text-center">{{ item.hoaDonSdt }}</td>
+                        <td class="text-center">{{ item.ngayTao }}</td>
+                        <td class="text-center">{{ item.tongTien }} VNĐ</td>
+                        <td class="text-center">
+                            <span class="underline-text">Xem chi tiết</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <v-btn class="mb-2" color="red" @click="DuyetDon">Duyệt đơn hàng</v-btn>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </v-table>
+            <v-pagination prev-icon="mdi-menu-left" next-icon="mdi-menu-right" :length="totalPages"
+                v-model="currentPage"></v-pagination>
+
+        </div>
+        <div v-else>
+            <v-card-title class="text-center" style="height: 400px;">
+                Danh sách trống...
+            </v-card-title>
+        </div>
         <Loading v-model="dialogloading" />
-        <Toast style="z-index: 1000;" v-model="showAlert.show" :content="showAlert.content" :color="showAlert.color"
+        <Toast class="mt-10" style="z-index: 2000;" v-model="showAlert.show" :content="showAlert.content" :color="showAlert.color"
             :icon="showAlert.icon" />
     </div>
 </template>
@@ -82,7 +86,7 @@ export default {
                 color: "success"
             },
             currentPage: 1,
-            itemsPerPage: 5,
+            itemsPerPage: 10,
         }
     },
     components: {
@@ -183,5 +187,13 @@ export default {
     margin-bottom: 10px;
     height: 40px;
     width: 90px;
+}
+.underline-text {
+    cursor: pointer;    
+}
+
+.underline-text:hover {
+    text-decoration: underline;
+    color: red;
 }
 </style>

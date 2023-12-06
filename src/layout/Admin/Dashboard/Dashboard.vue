@@ -22,7 +22,7 @@
                 <v-col cols="9" style="height: 100%;">
                     <v-row>
                         <v-col cols="5">
-                            <v-card>
+                            <v-card elevation="8" bg-color="white">
                                 <v-card-title class="text-center">Thông tin đơn hàng</v-card-title>
                                 <v-card-text>
                                     <BieuDo />
@@ -30,7 +30,7 @@
                             </v-card>
                         </v-col>
                         <v-col cols="7">
-                            <v-card>
+                            <v-card elevation="8" bg-color="white">
                                 <v-card-title class="text-center">Doanh thu theo tuần</v-card-title>
                                 <v-card-text>
                                     <DoanhThu />
@@ -42,16 +42,7 @@
             </v-row>
             <v-row>
                 <v-col cols="12" style="height: 100%;">
-                    <v-card>
-                        <v-card-title>Đơn đặt hàng</v-card-title>
-                        <v-card-text>
-                            <DonHang />
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn color="red">Duyệt đơn</v-btn>
-                        </v-card-actions>
-                    </v-card>
+                    <DonHang/>
                 </v-col>
             </v-row>
         </v-container>

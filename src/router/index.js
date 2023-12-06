@@ -49,6 +49,10 @@ const routes = [
         component: () => import('@/layout/Admin/Dashboard/Dashboard.vue')
       },
       {
+        path: 'donhang',
+        component: () => import('@/layout/Admin/DonHang/DonhangView.vue')
+      },
+      {
         path: 'danhmuc',
         component: () => import('@/layout/Admin/Danhmuc/DanhmucView.vue')
       },

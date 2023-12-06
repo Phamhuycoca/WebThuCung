@@ -15,5 +15,4 @@ export default {
     async deleteData(id){
         return await danhmucAPI.delete(`${id}`)
     }
-    
 }
