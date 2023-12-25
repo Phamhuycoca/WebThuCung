@@ -113,16 +113,16 @@ export default {
         }
     },
     methods: {
-        handleImageChange(event) {
-            const selectedFile = event.target.files[0];
-            if (selectedFile) {
-                this.image = selectedFile;
-                this.selectedImage = URL.createObjectURL(selectedFile);
-            } else {
-                this.image = null;
-                this.selectedImage = null;
-            }
-        },
+            handleImageChange(event) {
+                const selectedFile = event.target.files[0];
+                if (selectedFile) {
+                    this.image = selectedFile;
+                    this.selectedImage = URL.createObjectURL(selectedFile);
+                } else {
+                    this.image = null;
+                    this.selectedImage = null;
+                }
+            },
         reSetForm() {
             this.formData.danhMucId = '';
             this.formData.SanPhamTen = '';

@@ -1,16 +1,6 @@
 <template>
-    <div style="margin: 20px;height: 150vh;">
-        <h1 class="text-center">Danh sách sản phẩm</h1>
-        <v-row>
-            <v-col cols="4">
-                <v-card>
-                    <v-card-title>Thông tin tìm kiếm</v-card-title>
-                    <v-card-text>
-                    <v-text-field v-model="searchValue" label="Nhập thông tìm kiếm"></v-text-field>
-                    </v-card-text>
-                </v-card>
-            </v-col>
-        </v-row>
+    <div style="margin: 20px;">
+        <h3>Danh sách sản phẩm</h3>
         <v-row>
             <v-col v-for="(item, index) in displayed" :key="index" cols="4" class="mt-8">
                 <div style="border: 1px solid #333; background: #f4eeee;">
@@ -36,8 +26,8 @@
 </template>
   
 <script>
-import Toast from '../Toast.vue';
-import Loading from '../Loading.vue';
+import Toast from '@/components/Toast.vue';
+import Loading from '@/components/Loading.vue';
 import giohangApi from '@/service/giohangApi';
 import sanphamApi from '@/service/sanphamApi';
 import { mapGetters } from 'vuex';
@@ -60,8 +50,7 @@ export default {
                 color: "success"
             },
             currentPage: 1,
-            itemsPerPage: 6,
-            searchValue:''
+            itemsPerPage: 3,
         };
     },
     watch: {
@@ -70,13 +59,6 @@ export default {
             handler(newVal) {
                 if (!newVal.show) return;
                 setTimeout(() => (this.showAlert.show = false), 2000);
-            }
-        },
-        searchValue:function(newVal){
-            if(newVal===""){
-                this.getAllSanPham();
-            }else{
-                this.Search(newVal);
             }
         }
     },
@@ -116,7 +98,7 @@ export default {
                 // this.getAllCart();
             } catch (error) {
                 console.log(error.response.data);
-                this.AlertError('Vui lòng đăng nhập');
+                this.AlertError('Vui lòng đăng nhập');  
                 this.dialogloading = false;
             }
         },
@@ -142,12 +124,8 @@ export default {
         //         console.log(error);
         //     }
         // },
-        viewDetails(item){
-            this.$router.push('/chitiet/'+item.sanPhamId);
-        },
-        async Search(search){
-            const res =await sanphamApi.Search(search);
-            this.sanphams=res.data;
+        viewDetails(item) {
+            this.$router.push('/chitiet/' + item.sanPhamId);
         },
         AlertSuccess(content) {
             this.showAlert.show = true;

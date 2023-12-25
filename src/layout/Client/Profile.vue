@@ -56,7 +56,7 @@
                             <v-card-actions class="mt-6">
                                 <v-btn color="green" @click="edit">Thay đổi thông tin tài khoản</v-btn>
                                 <v-spacer></v-spacer>
-                                <v-btn color="red">Thay đổi mật khẩu</v-btn>
+                                <v-btn @click="dialogEdit=true,current=user" color="primary">Thay đổi mật khẩu</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-container>
@@ -142,10 +142,13 @@
         <Loading v-model="dialogloading" />
         <Toast style="z-index: 1000;" v-model="showAlert.show" :content="showAlert.content" :color="showAlert.color"
             :icon="showAlert.icon" />
+        <DoiMatKhau :current="current" :dialogEdit="dialogEdit" @close="dialogEdit=false"/>
+
     </div>
 </template>
 
 <script>
+import DoiMatKhau from '@/layout/Client/DoiMatKhau.vue'
 import nguoidungApi from '@/service/nguoidungApi';
 import { mapState } from 'vuex';
 import Editprofile from './Editprofile.vue';
@@ -173,6 +176,8 @@ export default {
                 content: "",
                 color: "success"
             },
+            current:'',
+            dialogEdit:false,
         };
     },
     computed: {
@@ -292,7 +297,7 @@ export default {
         this.getUser();
         this.getHoaDonById();
     },
-    components: { Editprofile, Loading, Toast }
+    components: { Editprofile, Loading, Toast,DoiMatKhau }
 }
 </script>
 

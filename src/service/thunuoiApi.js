@@ -1,26 +1,32 @@
 import axios from "axios";
-const thunuoiApi=axios.create({
-    baseURL:'https://localhost:2407/api/ThuNuoi'
+const thunuoiApi = axios.create({
+    baseURL: 'https://localhost:2407/api/ThuNuoi'
 })
-export default{
-    async getAll(){
+export default {
+    async getAll() {
         return await thunuoiApi.get();
     },
-    async addData(data){
-        return await thunuoiApi.post('',data,{
-            headers:{
-                "Content-Type":"multipart/form-data"
+    async addData(data) {
+        return await thunuoiApi.post('', data, {
+            headers: {
+                "Content-Type": "multipart/form-data"
             }
         });
     },
-    async updateData(id,data){
-        return await thunuoiApi.put(`${id}`,data,{
-            headers:{
-                "Content-Type":"multipart/form-data"
+    async updateData(id, data) {
+        return await thunuoiApi.put(`${id}`, data, {
+            headers: {
+                "Content-Type": "multipart/form-data"
             }
         });
     },
-    async deleteData(id){
+    async deleteData(id) {
         return await thunuoiApi.delete(`${id}`);
+    },
+    async getById(id) {
+        return await thunuoiApi.get(`${id}`);
+    },
+    async Search(value) {
+        return await thunuoiApi.get(`/Search/` + value)
     }
 }

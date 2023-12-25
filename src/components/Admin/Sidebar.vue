@@ -30,6 +30,5 @@ export default {
 </script>
   
 <style scoped>
-/* Các quy tắc CSS scoped nếu cần thiết */
 </style>
   

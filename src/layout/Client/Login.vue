@@ -77,7 +77,11 @@ export default {
                 this.$store.dispatch('Login', res.data.token);
                 this.AlertSuccess(res.data.message);
                 setTimeout(() => {
-                    this.$router.push('/')
+                    if(res.data.trangthai ==='Người dùng'){
+                        this.$router.push('/')
+                    }else{
+                        this.$router.push('/admin')
+                    }
                 }, 4000);
             } catch (error) {
                 this.loading = false;

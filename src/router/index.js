@@ -33,6 +33,10 @@ const routes = [
       {
         path:'profile',
         component:()=>import('@/layout/Client/Profile.vue')
+      },
+      {
+        path:'chitietthucung/:id',
+        component:()=>import('@/layout/Client/DetailThuCung.vue')
       }
     ]
   },  
@@ -45,7 +49,7 @@ const routes = [
     component: () => import('../views/AdminView.vue'),
     children: [
       {
-        path: 'dashboard',
+        path: '/admin',
         component: () => import('@/layout/Admin/Dashboard/Dashboard.vue')
       },
       {

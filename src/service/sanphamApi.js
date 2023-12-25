@@ -25,6 +25,8 @@ export default {
     },
     async getById(id){
         return await sanphamApi.get(`${id}`)
-
+    },
+    async Search(value){
+        return await sanphamApi.get(`/Search/`+value)
     }
 }

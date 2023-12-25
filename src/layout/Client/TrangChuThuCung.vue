@@ -1,16 +1,6 @@
 <template>
-    <div style="margin: 20px;height: 150vh;">
-        <h1 class="text-center">Danh sách thú nuôi</h1>
-        <v-row>
-            <v-col cols="4">
-                <v-card>
-                    <v-card-title>Thông tin tìm kiếm</v-card-title>
-                    <v-card-text>
-                    <v-text-field v-model="searchValue" label="Nhập thông tìm kiếm"></v-text-field>
-                    </v-card-text>
-                </v-card>
-            </v-col>
-        </v-row>
+    <div style="margin: 20px;">
+    <h3>Thú cưng</h3>
         <v-row>
             <v-col v-for="(item, index) in displayed" :key="index" cols="4" class="mt-8">
                 <div style="border: 1px solid #333; background: #f4eeee;">
@@ -20,7 +10,7 @@
                     </v-card>
                     <v-card-text class="text-center">Tên thú cưng: {{ item.thuNuoiTen }}</v-card-text>
                     <v-card-actions>
-                        <v-btn :to="'/chitietthucung/'+item.thuNuoiId" color="secondary" dark>Xem chi tiết</v-btn>
+                        <v-btn to="/chitiet" color="secondary" dark>Xem chi tiết</v-btn>
                     </v-card-actions>
                 </div>
             </v-col>
@@ -31,28 +21,18 @@
     </div>
 </template>
 <script>
-import Loading from '../Loading.vue';
+import Loading from '@/components/Loading.vue';
 import thunuoiApi from '../../service/thunuoiApi';
 
 export default {
-    name: 'ThuNuoi',
+    name: 'ThuNuoiView',
     data() {
         return {
             dialogloading: false,
             thunuois: [],
             currentPage: 1,
-            itemsPerPage: 9,
-            searchValue:''
+            itemsPerPage: 3,
 
-        }
-    },
-    watch:{
-        searchValue:function(newVal){
-            if(newVal===""){
-                this.getAllThuNuoi();
-            }else{
-                this.Search(newVal);
-            }
         }
     },
     computed: {
@@ -81,11 +61,7 @@ export default {
                 this.dialogloading = false;
                 console.log(error);
             }
-        },
-        async Search(search){
-            const res =await thunuoiApi.Search(search);
-            this.thunuois=res.data;
-        },
+        }
     },
     created() {
         this.getAllThuNuoi();
