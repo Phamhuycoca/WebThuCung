@@ -47,9 +47,11 @@ const routes = [
   {
     path: '/admin',
     component: () => import('../views/AdminView.vue'),
+    meta: { requiresAuth: true },
     children: [
       {
         path: '/admin',
+        name:'admin',
         component: () => import('@/layout/Admin/Dashboard/Dashboard.vue')
       },
       {
@@ -76,5 +78,21 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+  router.beforeEach((to, from, next) => {
+    const isAuthenticated = sessionStorage.getItem('Quyen') === 'admin';
 
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      if (!isAuthenticated) {
+        next({ name: 'home' });
+      } else {
+        next(); 
+      }
+    } else {
+      if (isAuthenticated && to.name !== 'admin') {
+        next({ name: 'admin' });
+      } else {
+        next();
+      }
+    }
+  });
 export default router
